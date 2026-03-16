@@ -1,0 +1,10 @@
+# Supabase Connection String Quest
+
+- [ ] Navigate to Supabase Dashboard
+- [ ] Check login status
+- [ ] Select a project (if any)
+- [ ] Go to Project Settings
+- [ ] Click on Database tab
+- [ ] Locate Connection String section
+- [ ] Select URI tab
+- [ ] Take screenshot and report back

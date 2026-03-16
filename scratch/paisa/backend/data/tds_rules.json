@@ -1,0 +1,117 @@
+{
+  "rules": [
+    {
+      "section": "194C",
+      "description": "Contractor / subcontractor payments",
+      "keywords": ["contractor", "subcontractor", "labour", "construction",
+                   "transport", "freight", "hauling", "repair work",
+                   "maintenance work", "cleaning service", "catering"],
+      "threshold_single": 30000,
+      "threshold_aggregate_yearly": 100000,
+      "rate_individual": 1.0,
+      "rate_company": 2.0,
+      "notes": "No TDS if party furnishes 15G/15H"
+    },
+    {
+      "section": "194J",
+      "description": "Professional / technical service fees",
+      "keywords": ["chartered accountant", "ca firm", "lawyer", "advocate",
+                   "doctor", "consultant", "architect", "interior designer",
+                   "engineer", "professional fees", "legal fees",
+                   "audit fees", "management consultant", "financial advisor"],
+      "threshold_single": 50000,
+      "threshold_aggregate_yearly": 50000,
+      "rate_individual": 10.0,
+      "rate_company": 10.0,
+      "notes": "Technical services: 2% from June 2024"
+    },
+    {
+      "section": "194J_technical",
+      "description": "Technical services (sub-category of 194J)",
+      "keywords": ["software development", "IT services", "technical support",
+                   "technical consultant", "call centre", "BPO"],
+      "threshold_single": 50000,
+      "threshold_aggregate_yearly": 50000,
+      "rate_individual": 2.0,
+      "rate_company": 2.0,
+      "notes": "Rate reduced to 2% for technical services"
+    },
+    {
+      "section": "194H",
+      "description": "Commission or brokerage",
+      "keywords": ["commission", "brokerage", "agent fees", "sales agent",
+                   "marketing agent", "referral fees"],
+      "threshold_single": 20000,
+      "threshold_aggregate_yearly": 20000,
+      "rate_individual": 2.0,
+      "rate_company": 2.0,
+      "notes": "Rate reduced from 5% to 2% effective Oct 2024"
+    },
+    {
+      "section": "194I_building",
+      "description": "Rent — land, building, furniture",
+      "keywords": ["rent", "office rent", "warehouse rent", "godown rent",
+                   "shop rent", "building rent", "lease rent"],
+      "threshold_monthly": 50000,
+      "threshold_aggregate_yearly": 600000,
+      "rate_individual": 10.0,
+      "rate_company": 10.0,
+      "notes": "Revised threshold: ₹50,000/month from April 2025"
+    },
+    {
+      "section": "194I_plant",
+      "description": "Rent — plant and machinery",
+      "keywords": ["machinery rent", "equipment hire", "plant hire",
+                   "vehicle hire", "generator hire"],
+      "threshold_monthly": 50000,
+      "threshold_aggregate_yearly": 600000,
+      "rate_individual": 2.0,
+      "rate_company": 2.0
+    },
+    {
+      "section": "194IB",
+      "description": "Rent by individual/HUF (non-audit cases)",
+      "keywords": ["rent", "house rent", "residential rent"],
+      "threshold_monthly": 50000,
+      "threshold_aggregate_yearly": 600000,
+      "rate_individual": 2.0,
+      "rate_company": 2.0,
+      "notes": "Only for individuals/HUF not covered under 194I. Rate reduced from 5% to 2%"
+    },
+    {
+      "section": "194Q",
+      "description": "Purchase of goods",
+      "keywords": ["goods", "stock", "inventory", "merchandise", "product"],
+      "threshold_aggregate_yearly": 5000000,
+      "rate_individual": 0.1,
+      "rate_company": 0.1,
+      "notes": "Applies only if buyer's turnover > ₹10 crore. Cannot apply if TCS u/s 206C(1H) is applicable"
+    },
+    {
+      "section": "194A",
+      "description": "Interest other than on securities",
+      "keywords": ["interest", "loan interest", "deposit interest"],
+      "threshold_single": 10000,
+      "threshold_aggregate_yearly": 10000,
+      "rate_individual": 10.0,
+      "rate_company": 10.0
+    },
+    {
+      "section": "194T",
+      "description": "Salary/remuneration to partners from LLP/firm",
+      "keywords": ["partner salary", "partner remuneration", "partner commission",
+                   "partner bonus"],
+      "threshold_aggregate_yearly": 20000,
+      "rate_individual": 10.0,
+      "rate_company": 10.0,
+      "notes": "New section effective April 2025, Budget 2024"
+    }
+  ],
+
+  "exemptions": {
+    "individual_huf_no_tds": "An Individual/HUF is NOT liable to deduct TDS unless their business turnover exceeded ₹1 crore OR professional receipts exceeded ₹50 lakh in the PRECEDING financial year.",
+    "pan_not_available": "If PAN of deductee is not available, TDS is deducted at 20% (higher rate) under section 206AA.",
+    "lower_deduction_certificate": "If the party provides a lower deduction certificate u/s 197, apply the certificate rate instead of normal rate.",
+    "form_15g_15h": "If the party submits Form 15G/15H (applicable only to individuals with no tax liability), TDS is NIL."
+  }
+}

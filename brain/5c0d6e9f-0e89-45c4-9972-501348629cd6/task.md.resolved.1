@@ -1,0 +1,38 @@
+# Paisa - AI Accountant Chatbot
+
+## Setup & Scaffolding
+- [/] Initialize frontend and backend repositories
+- [ ] Setup initial dependencies and project structure
+
+## Phase 1 — Core Chat + LLM Intent Engine
+- [ ] Implement FastAPI backend basic setup CORS + routers
+- [ ] Add Multi-provider LLM Client logic
+- [ ] Build `/api/chat` with LLM extraction logic (Paisa intent extraction)
+- [ ] Create Vite+React frontend chat interface with message bubbles & card output
+
+## Phase 2 — GST Engine
+- [ ] Add `hsn_master.py` and local HSN fallback JSON
+- [ ] Implement `gst_engine.py` (fuzzy match, tax calculation logic)
+
+## Phase 3 — TDS Engine
+- [ ] Seed `tds_rules.json` to data directory
+- [ ] Implement `tds_engine.py` logic
+
+## Phase 4 — OCR Invoice Scanning
+- [ ] Integrate EasyOCR and PDFplumber
+- [ ] Implement OCR logic and parsing LLM prompt
+- [ ] Build `/api/scan-invoice` endpoint
+
+## Phase 5 — Tally XML Integration
+- [ ] Implement `tally_xml.py` voucher generator
+- [ ] Build the local `tally-bridge` agent
+
+## Phase 6-8 — Dashboard, Reminders, and Bank Import
+- [ ] Implement dashboard endpoints & UI
+- [ ] Add creditor tracking DB model & email scheduler
+- [ ] Implement bank statement parse logic for PDF/Excel
+
+## Verification
+- [ ] Manual test frontend and backend communication
+- [ ] Verify LLM extraction is returning correct JSON format
+- [ ] Test invoice parsing logic

@@ -1,0 +1,15 @@
+# Task Plan
+- [ ] Navigate to http://127.0.0.1:8000/docs
+- [ ] Take a screenshot of all endpoints
+- [ ] Test GET /api/dashboard
+    - [ ] Expand endpoint
+    - [ ] Click "Try it out"
+    - [ ] Click "Execute"
+    - [ ] Screenshot response body
+- [ ] Test POST /api/chat
+    - [ ] Expand endpoint
+    - [ ] Click "Try it out"
+    - [ ] Paste request body
+    - [ ] Click "Execute"
+    - [ ] Screenshot response body
+- [ ] Report findings

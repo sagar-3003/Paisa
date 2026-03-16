@@ -1,0 +1,12 @@
+# Task: Push .gemini/antigravity to Git
+
+- [/] Planning and Preparation
+    - [ ] Create `.gitignore` to exclude `node_modules`, `venv`, `.venv`, and other unnecessary files
+    - [ ] Initialize git repository in `/Users/sagargoyal/.gemini/antigravity` if not exists
+    - [ ] Get remote repository URL from user (if not already set)
+- [ ] Execution
+    - [ ] Stage all changes
+    - [ ] Commit changes
+    - [ ] Push to remote repository
+- [ ] Verification
+    - [ ] Verify that files are pushed correctly and excluded files are skipped

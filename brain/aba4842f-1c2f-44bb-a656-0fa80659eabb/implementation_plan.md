@@ -1,0 +1,54 @@
+# Goal Description
+The goal is to continue the development of the Paisa AI Accountant Chatbot from where the previous session left off. The focus will be on setting up the remaining database models, completing the OCR integration, and implementing Tally XML integration, Dashboard, Creditor Tracking/Reminders, and Bank Statement parsing (Phases 4(remainder) to 8).
+
+## User Review Required
+> [!IMPORTANT]
+> The database connection string and Supabase setup are required for full functionality. We will use SQLite for local development so you can test immediately without setting up Supabase. Is this acceptable, or would you prefer to set up Supabase right away? 
+> Please review the proposed plan and let me know if you approve. 
+
+## Proposed Changes
+
+### Database Models
+- **[NEW] `backend/db/models.py`**
+  Add SQLAlchemy models for `Transaction`, `LineItem`, `CreditorDues`, `Inventory`, `HsnMaster`, and `TallyQueue`. This is required before Phase 6-8 can proceed.
+
+### Phase 4 — OCR Invoice Scanning (Completion)
+- **[MODIFY] `backend/services/ocr_service.py`**
+  Review and ensure `extract_text_from_pdf` and `extract_text_from_image` are correctly tied to the LLM invocation for invoice extraction.
+- **[MODIFY] `backend/routers/ocr.py`**
+  Finalize the endpoint logic to match the LLM prompt and schema.
+
+### Phase 5 — Tally XML Integration
+- **[NEW] `backend/services/tally_xml.py`**
+  Implement the voucher generators (sales, purchase, payment, receipt, journal).
+- **[NEW] `tally-bridge/bridge.py`**
+  Create the small relay script for the user to run on their local Tally machine.
+- **[NEW] `backend/routers/tally.py`**
+  Expose endpoints for the tally-bridge to poll pending vouchers and mark them as posted.
+
+### Phase 6 — Dashboard
+- **[NEW] `backend/routers/dashboard.py`**
+  Implement the `/api/dashboard` stats endpoint calculating today's sales, GST payable, pending dues, overdues, TDS, and low stock.
+- **[MODIFY] `frontend/src/pages/Dashboard.jsx`** (if not already existing)
+  Implement the 6 tiles for the React frontend.
+
+### Phase 7 — Creditor Tracking + Reminders
+- **[NEW] `backend/services/reminder_service.py`**
+  Implement email sending logic natively in Python (`smtplib`), and `APScheduler` daily cron job for 9 AM overdues.
+
+### Phase 8 — Bank Statement Auto-entry
+- **[NEW] `backend/services/bank_statement.py`**
+  Implement `pdfplumber` and `openpyxl` bank statement parsing and LLM auto-categorization logic.
+- **[MODIFY] `backend/routers/chat.py`** (or create a new router)
+  Expose an endpoint to upload and process bank statements.
+
+## Verification Plan
+
+### Automated Tests
+- We will test the FastAPI points using basic Python scripts or `curl` commands.
+- For `tally_xml.py`, we will generate a sample dictionary and assert the output XML format.
+- `hsn_master` fallback lookup will be verified locally.
+
+### Manual Verification
+- We will use the VITE frontend to test file uploads for OCR and Bank statement processing.
+- You can run the `tally-bridge/bridge.py` locally if you want to test with a real Tally Prime instance.

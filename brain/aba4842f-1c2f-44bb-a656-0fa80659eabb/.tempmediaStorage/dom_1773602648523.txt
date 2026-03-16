@@ -1,0 +1,88 @@
+<current_dom_explanation>
+This is a temporary snapshot of the current page's DOM structure. The DOM will change if you navigate to or interact with another page. Use a tool like browser_get_dom to capture and preserve the DOM in your trajectory if needed for later reference.
+</current_dom_explanation>
+<current_dom>
+[0] (500,794)<div  />
+	FastAPI
+	0.1.0
+	OAS
+	3.1
+	[1] (53,154)<a class='link' href='/openapi.json' />
+		[2] (53,154)<span >/openapi.json />
+	[3] (500,278)<h3  />
+		[4] (64,277)<a class='nostyle' href='#/default' />
+			[5] (64,277)<span >default />
+		[6] (947,277)<button class='expand-operation' title='Collapse operation' />
+	[7] (500,354)<div  />
+		[8] (487,354)<button class='opblock-summary-control' />
+			[9] (62,354)<span >POST />
+			[10] (520,354)<div  />
+				[11] (139,354)<span  />
+					[12] (139,354)<a class='nostyle' href='#/default/process_chat_api_chat_post' />
+						[13] (139,354)<span >/api
+/chat />
+				[14] (216,354)<div >Process Chat />
+		[15] (958,354)<button aria-label='post ​/api​/chat' class='opblock-control-arrow' />
+	[16] (500,436)<div  />
+		[17] (487,436)<button class='opblock-summary-control' />
+			[18] (62,436)<span >GET />
+			[19] (520,436)<div  />
+				[20] (160,436)<span  />
+					[21] (160,436)<a class='nostyle' href='#/default/get_dashboard_api_dashboard_get' />
+						[22] (160,436)<span >/api
+/dashboard />
+				[23] (261,436)<div >Get Dashboard />
+		[24] (958,436)<button aria-label='get ​/api​/dashboard' class='opblock-control-arrow' />
+	[25] (500,519)<div  />
+		[26] (487,519)<button class='opblock-summary-control' />
+			[27] (62,519)<span >POST />
+			[28] (520,519)<div  />
+				[29] (172,519)<span  />
+					[30] (172,519)<a class='nostyle' href='#/default/scan_invoice_api_scan_invoice_post' />
+						[31] (172,519)<span >/api
+/scan-invoice />
+				[32] (279,519)<div >Scan Invoice />
+		[33] (958,519)<button aria-label='post ​/api​/scan-invoice' class='opblock-control-arrow' />
+	[34] (500,601)<div  />
+		[35] (487,601)<button class='opblock-summary-control' />
+			[36] (62,601)<span >GET />
+			[37] (520,601)<div  />
+				[38] (200,601)<span  />
+					[39] (200,601)<a class='nostyle' href='#/default/get_pending_posts_api_pending_tally_posts_get' />
+						[40] (200,601)<span >/api
+/pending-tally-posts />
+				[41] (349,601)<div >Get Pending Posts />
+		[42] (958,601)<button aria-label='get ​/api​/pending-tally-posts' class='opblock-control-arrow' />
+	[43] (500,684)<div  />
+		[44] (487,684)<button class='opblock-summary-control' />
+			[45] (62,684)<span >POST />
+			[46] (520,684)<div  />
+				[47] (220,684)<span  />
+					[48] (220,684)<a class='nostyle' href='#/default/mark_posted_api_mark_posted__voucher_id__post' />
+						[49] (220,684)<span >/api
+/mark-posted
+/{voucher_id} />
+				[50] (375,684)<div >Mark Posted />
+		[51] (958,684)<button aria-label='post ​/api​/mark-posted​/{voucher_id}' class='opblock-control-arrow' />
+	[52] (500,767)<div  />
+		[53] (487,767)<button class='opblock-summary-control' />
+			[54] (62,767)<span >POST />
+			[55] (520,767)<div  />
+				[56] (160,767)<span  />
+					[57] (160,767)<a class='nostyle' href='#/default/scan_bank_statement_api_scan_bank_post' />
+						[58] (160,767)<span >/api
+/scan-bank />
+				[59] (276,767)<div >Scan Bank Statement />
+		[60] (958,767)<button aria-label='post ​/api​/scan-bank' class='opblock-control-arrow' />
+	[61] (500,849)<div  />
+		[62] (487,849)<button class='opblock-summary-control' />
+			[63] (62,849)<span >GET />
+			[64] (520,849)<div  />
+				[65] (107,849)<span  />
+					[66] (107,849)<a class='nostyle' href='#/default/read_root__get' />
+						[67] (107,849)<span >/ />
+				[68] (146,849)<div >Read Root />
+		[69] (958,849)<button aria-label='get ​/' class='opblock-control-arrow' />
+	Schemas
+
+</current_dom>

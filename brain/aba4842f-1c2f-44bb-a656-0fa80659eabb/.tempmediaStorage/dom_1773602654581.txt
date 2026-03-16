@@ -1,0 +1,54 @@
+<current_dom_explanation>
+This is a temporary snapshot of the current page's DOM structure. The DOM will change if you navigate to or interact with another page. Use a tool like browser_get_dom to capture and preserve the DOM in your trajectory if needed for later reference.
+</current_dom_explanation>
+<current_dom>
+FastAPI
+0.1.0
+OAS
+3.1
+[0] (53,154)<a class='link' href='/openapi.json' />
+	[1] (53,154)<span >/openapi.json />
+[2] (500,278)<h3  />
+	[3] (64,277)<a class='nostyle' href='#/default' />
+		[4] (64,277)<span >default />
+	[5] (947,277)<button class='expand-operation' title='Collapse operation' />
+[6] (500,354)<div  />
+	[7] (487,354)<button class='opblock-summary-control' />
+		[8] (62,354)<span >POST />
+		[9] (520,354)<div  />
+			[10] (139,354)<span  />
+				[11] (139,354)<a class='nostyle' href='#/default/process_chat_api_chat_post' />
+					[12] (139,354)<span >/api
+/chat />
+			[13] (216,354)<div >Process Chat />
+	[14] (958,354)<button aria-label='post ​/api​/chat' class='opblock-control-arrow' />
+[15] (500,437)<div  />
+	[16] (486,436)<button class='opblock-summary-control' />
+		[17] (62,436)<span >GET />
+		[18] (519,436)<div  />
+			[19] (160,436)<span  />
+				[20] (160,436)<a class='nostyle' href='#/default/get_dashboard_api_dashboard_get' />
+					[21] (160,436)<span >/api
+/dashboard />
+			[22] (261,436)<div >Get Dashboard />
+	[23] (944,436)<div  />
+	[24] (958,436)<button aria-label='get ​/api​/dashboard' class='opblock-control-arrow' />
+[25] (89,504)<div  />
+	[26] (73,504)<h4  />
+		[27] (73,504)<span >Parameters />
+[28] (914,504)<button class='btn try-out__btn'>Try it out />
+No parameters
+Responses
+Code
+Description
+Links
+200
+Successful Response
+Media type
+[29] (207,956)<select aria-label='Media Type' class='content-type' />
+Controls
+Accept
+header.
+No links
+
+</current_dom>

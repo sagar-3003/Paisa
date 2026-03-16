@@ -1,0 +1,63 @@
+<current_dom_explanation>
+This is a temporary snapshot of the current page's DOM structure. The DOM will change if you navigate to or interact with another page. Use a tool like browser_get_dom to capture and preserve the DOM in your trajectory if needed for later reference.
+</current_dom_explanation>
+<current_dom>
+[0] (275,85)<button class='btn execute opblock-control__btn'>Execute />
+[1] (725,85)<button class='btn btn-clear opblock-control__btn'>Clear />
+Responses
+Curl
+[2] (943,387)<button  />
+curl -X
+'GET'
+\
+'http://127.0.0.1:8000/api/dashboard'
+\
+-H
+'accept: application/json'
+Request URL
+http://127.0.0.1:8000/api/dashboard
+Server response
+Code
+Details
+200
+Response body
+[3] (863,960)<button  />
+[4] (919,960)<button class='download-contents'>Download />
+{
+"today_sales"
+:
+45000
+,
+"gst_payable"
+:
+-9900
+,
+"gst_due_date"
+:
+"2026-04-20"
+,
+"pending_dues"
+:
+78100
+,
+"pending_dues_parties"
+:
+2
+,
+"overdue_count"
+:
+1
+,
+"tds_deducted"
+:
+1000
+,
+"low_stock_items"
+: [
+"Dell Inspiron 15"
+,
+"Logitech Mouse"
+]
+}
+
+</current_dom>

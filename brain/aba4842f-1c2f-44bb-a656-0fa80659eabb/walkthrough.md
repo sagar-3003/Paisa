@@ -1,0 +1,77 @@
+# Paisa App — Test Results Walkthrough
+
+## What Was Built (Phases 4–8)
+- **DB Models**: `transactions`, `line_items`, `creditor_dues`, `inventory`, `hsn_master`, `tally_queue` via SQLAlchemy
+- **OCR**: Invoice image/PDF → pdfplumber/EasyOCR → LLM JSON extraction → R2 file upload
+- **Tally XML**: Sales voucher XML builder + local bridge relay agent
+- **Dashboard API**: Aggregated metrics from DB (sales, GST, dues, TDS, inventory alerts)
+- **Email Reminders**: APScheduler 9AM daily cron, SMTP via Gmail
+- **Bank Statement**: pdfplumber/openpyxl tabular extraction + Groq LLM categorization
+
+---
+
+## API Documentation
+
+![API Endpoints Screenshot](file:///Users/sagargoyal/.gemini/antigravity/brain/aba4842f-1c2f-44bb-a656-0fa80659eabb/api_endpoints_list_1773602648491.png)
+
+---
+
+## Live Test Results
+
+### Dashboard Endpoint — Real aggregated metrics from seeded data
+```
+GET /api/dashboard
+```
+![Dashboard API Response](file:///Users/sagargoyal/.gemini/antigravity/brain/aba4842f-1c2f-44bb-a656-0fa80659eabb/dashboard_api_response_1773602681491.png)
+
+**Results:**
+| Field | Value |
+|---|---|
+| `today_sales` | ₹45,000 (from seeded transaction) |
+| `gst_payable` | ₹-9,900 (negative = more GST input than output this month) |
+| `gst_due_date` | 2026-04-20 |
+| `pending_dues` | ₹78,100 (from 2 parties) |
+| `overdue_count` | 1 (Acme Corp invoice) |
+| `tds_deducted` | ₹1,000 (CA audit fees) |
+| `low_stock_items` | Dell Inspiron 15, Logitech Mouse |
+
+---
+
+### Chat Endpoint — Natural Language → Structured JSON via Groq LLM
+```
+POST /api/chat
+{"message": "I bought office supplies from Sharma Stationery for Rs 5000 cash today."}
+```
+![Chat API Response](file:///Users/sagargoyal/.gemini/antigravity/brain/aba4842f-1c2f-44bb-a656-0fa80659eabb/chat_api_response_1773602996807.png)
+
+**Extracted JSON fields:**
+- `intent: purchase`
+- `party_name: Sharma Stationery`
+- `total_amount: 5000`
+- `payment_mode: cash`
+
+---
+
+## Browser Recording
+
+A full browser test session was recorded:
+
+![Browser Test Session](file:///Users/sagargoyal/.gemini/antigravity/brain/aba4842f-1c2f-44bb-a656-0fa80659eabb/paisa_api_test_1773602615694.webp)
+
+---
+
+## How to Run Locally
+
+```bash
+# 1. Install deps (once)
+.venv/bin/pip install -r backend/requirements.txt
+.venv/bin/pip install aiosqlite
+
+# 2. Seed dummy data
+cd backend && DATABASE_URL="sqlite+aiosqlite:///./paisa.db" ../.venv/bin/python ../backend/seed.py
+
+# 3. Start backend
+cd backend && DATABASE_URL="sqlite+aiosqlite:///./paisa.db" ../.venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000
+
+# 4. Test: http://127.0.0.1:8000/docs (Swagger UI)
+```

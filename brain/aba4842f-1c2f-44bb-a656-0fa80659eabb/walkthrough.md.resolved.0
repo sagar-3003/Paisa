@@ -1,0 +1,42 @@
+# Paisa App Development - Walkthrough (Phases 4-8)
+
+This document summarizes the completion of Phases 4 through 8 from the [AI_Accountant_Execution_Prompt.md](file:///Users/sagargoyal/Downloads/AI_Accountant_Execution_Prompt.md), including building structural backend components for the Paisa App.
+
+## Changes Made
+- **Database Schema**: 
+  - Implemented comprehensive `SQLAlchemy` models ([backend/db/models.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/db/models.py)) mapping to [transactions](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/services/bank_statement.py#82-110), `line_items`, `creditor_dues`, `inventory`, `hsn_master`, and `tally_queue` tables. 
+  - Configured a local `SQLite` fallback ([backend/db/database.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/db/database.py)) to allow immediate local testing.
+- **Phase 4 - OCR Fixes**: 
+  - Integrated `Cloudflare R2` file storage in [backend/services/storage.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/services/storage.py).
+  - Updated `/api/scan-invoice` endpoint to correctly invoke the LLM extraction logic and upload source images/PDFs to R2.
+- **Phase 5 - Tally XML Integration**: 
+  - Created Tally `Sales` XML voucher generator in [backend/services/tally_xml.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/services/tally_xml.py).
+  - Built [tally-bridge/bridge.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/tally-bridge/bridge.py) relay script to constantly poll `/api/pending-tally-posts` endpoints from the backend and send valid XMLs to local Tally Prime.
+  - Added FastAPI router for Tally bridge syncing ([backend/routers/tally.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/routers/tally.py)).
+- **Phase 6 - Dashboard**: 
+  - Implemented the `/api/dashboard` backend queries over the DB models ([backend/routers/dashboard.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/routers/dashboard.py)).
+  - Scaffolded the frontend structural [Dashboard.jsx](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/frontend/src/pages/Dashboard.jsx) tile layout using Vite and Tailwind.
+- **Phase 7 - Creditor Tracking + Reminders**:
+  - Engineered automated `APScheduler` cron jobs to email payment reminders at 9 AM daily for 7-day overdue invoices in [backend/services/reminder_service.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/services/reminder_service.py).
+- **Phase 8 - Bank Statement Auto-entry**:
+  - Implemented `pdfplumber` and `openpyxl`-based bank statement tabular parser inside [backend/services/bank_statement.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/services/bank_statement.py).
+  - Wrote LLM auto-categorization intent logic for grouping bank transactions logically.
+  - Exposed `/api/scan-bank` endpoint in [backend/routers/bank.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/routers/bank.py).
+
+## Code Walkthrough Links
+- Tally Bridge Logic: [tally-bridge/bridge.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/tally-bridge/bridge.py)
+- Dashboard Metrics Route: [backend/routers/dashboard.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/routers/dashboard.py)
+- Main Backend Setup: [backend/main.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/main.py)
+- Bank Parser Logic: [backend/services/bank_statement.py](file:///Users/sagargoyal/.gemini/antigravity/scratch/paisa/backend/services/bank_statement.py)
+
+## Steps for Verification
+We ran the `python3 -m py_compile` check ensuring no syntax bottlenecks on the new files.
+
+**Running the app locally:**
+1. Use `pip install -r backend/requirements.txt` to grab newly required Python dependencies.
+2. Run backend via `uvicorn backend.main:app --reload` to auto-initialize the SQLite database.
+3. Test PDF invoice uploads using `/api/scan-invoice` or `/api/scan-bank`.
+
+**Testing the Tally Bridge:**
+1. Make sure Tally is open locally configured at port 9000.
+2. Start the python daemon: `python tally-bridge/bridge.py`
