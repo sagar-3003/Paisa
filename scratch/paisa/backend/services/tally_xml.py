@@ -20,12 +20,12 @@ def build_sales_voucher(entry: dict, gst: dict) -> str:
         <ALLLEDGERENTRIES.LIST>
             <LEDGERNAME>Output CGST</LEDGERNAME>
             <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
-            <AMOUNT>{gst.get('taxes', {{}}).get('CGST', 0)}</AMOUNT>
+            <AMOUNT>{gst.get('taxes', {}).get('CGST', 0)}</AMOUNT>
         </ALLLEDGERENTRIES.LIST>
         <ALLLEDGERENTRIES.LIST>
             <LEDGERNAME>Output SGST</LEDGERNAME>
             <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
-            <AMOUNT>{gst.get('taxes', {{}}).get('SGST', 0)}</AMOUNT>
+            <AMOUNT>{gst.get('taxes', {}).get('SGST', 0)}</AMOUNT>
         </ALLLEDGERENTRIES.LIST>
     """
 
