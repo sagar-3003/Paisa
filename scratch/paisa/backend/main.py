@@ -1,5 +1,4 @@
 import os
-from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import chat, dashboard, ocr, tally, bank, cron
@@ -8,13 +7,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
+app = FastAPI()
+
+@app.on_event("startup")
+async def startup():
     await init_db()
     print("Database tables initialized.")
-    yield
-
-app = FastAPI(lifespan=lifespan)
 
 origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
 app.add_middleware(
