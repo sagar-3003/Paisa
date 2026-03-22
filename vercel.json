@@ -1,7 +1,6 @@
 {
   "buildCommand": "cd scratch/paisa/frontend && npm install && npm run build",
   "outputDirectory": "scratch/paisa/frontend/dist",
-  "installCommand": "pip install --break-system-packages -r requirements.txt",
   "framework": null,
   "functions": {
     "api/index.py": { "maxDuration": 60 }
