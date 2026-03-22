@@ -1,6 +1,7 @@
 {
-  "buildCommand": "cd scratch/paisa/frontend && npm install && npm run build",
+  "buildCommand": "cd scratch/paisa/frontend && npm run build",
   "outputDirectory": "scratch/paisa/frontend/dist",
+  "installCommand": "cd scratch/paisa/frontend && npm install",
   "framework": null,
   "functions": {
     "api/index.py": { "maxDuration": 60 }
