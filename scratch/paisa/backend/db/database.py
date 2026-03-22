@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import declarative_base, sessionmaker
-from contextlib import asynccontextmanager
+from sqlalchemy.pool import NullPool
 import os
 from dotenv import load_dotenv
 
@@ -14,7 +14,15 @@ if DATABASE_URL.startswith("postgresql://"):
 elif DATABASE_URL.startswith("postgres://"):   # Render/Heroku style
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
 
-engine = create_async_engine(DATABASE_URL, echo=False)
+# NullPool is required for Vercel serverless — prevents "connection closed" errors
+# between stateless invocations
+is_sqlite = DATABASE_URL.startswith("sqlite")
+engine = create_async_engine(
+    DATABASE_URL,
+    echo=False,
+    poolclass=None if is_sqlite else NullPool,
+)
+
 AsyncSessionLocal = sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False
 )

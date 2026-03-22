@@ -2,8 +2,7 @@ import os
 import smtplib
 from email.message import EmailMessage
 from datetime import date
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from sqlalchemy import select, update
+from sqlalchemy import select
 from db.database import AsyncSessionLocal
 from db.models import CreditorDues
 
@@ -29,7 +28,6 @@ async def send_email_reminder(to: str, party: str, amount: float, invoice: str, 
     msg['To'] = to
 
     try:
-        # Using SMTP_SSL for Gmail
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
             smtp.login(GMAIL_USER, GMAIL_APP_PASSWORD)
             smtp.send_message(msg)
@@ -38,11 +36,11 @@ async def send_email_reminder(to: str, party: str, amount: float, invoice: str, 
         print(f"Failed to send email to {to}: {e}")
 
 async def send_overdue_reminders():
-    print("Running scheduled job: send_overdue_reminders")
+    """Called by the cron endpoint daily at 9AM IST (3AM UTC)."""
+    print("Running send_overdue_reminders")
     today = date.today()
-    
+
     async with AsyncSessionLocal() as db:
-        # Find dues overdue by at least 7 days
         result = await db.execute(
             select(CreditorDues).where(
                 CreditorDues.status != 'paid',
@@ -51,12 +49,11 @@ async def send_overdue_reminders():
             )
         )
         overdue_records = result.scalars().all()
-        
+
         for due in overdue_records:
             if due.due_date and due.party_email:
                 overdue_days = (today - due.due_date).days
                 if overdue_days >= 7:
-                    # Send email
                     pending_amount = due.amount - (due.paid_amount or 0)
                     await send_email_reminder(
                         to=due.party_email,
@@ -65,18 +62,8 @@ async def send_overdue_reminders():
                         invoice=due.invoice_no,
                         overdue_days=overdue_days
                     )
-                    
-                    # Mark reminder sent
                     due.reminder_count = (due.reminder_count or 0) + 1
                     due.last_reminder = today
-                    
+
         await db.commit()
-
-# Setup scheduler
-scheduler = AsyncIOScheduler()
-scheduler.add_job(send_overdue_reminders, "cron", hour=9, minute=0)
-
-def start_scheduler():
-    if not scheduler.running:
-        scheduler.start()
-        print("APScheduler started.")
+    return {"sent": len(overdue_records)}

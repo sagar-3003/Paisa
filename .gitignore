@@ -8,6 +8,7 @@ yarn-error.log*
 venv/
 .venv/
 env/
+myenv/
 bin/
 lib/
 include/
@@ -37,6 +38,7 @@ wheels/
 
 # Environment variables
 .env
+.env.local
 .flaskenv
 
 # OS files

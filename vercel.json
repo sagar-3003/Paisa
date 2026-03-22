@@ -1,0 +1,15 @@
+{
+  "buildCommand": "cd scratch/paisa/frontend && npm install && npm run build",
+  "outputDirectory": "scratch/paisa/frontend/dist",
+  "installCommand": "pip install -r requirements.txt",
+  "framework": null,
+  "functions": {
+    "api/index.py": { "maxDuration": 60 }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.py" }
+  ],
+  "crons": [
+    { "path": "/api/cron/reminders", "schedule": "0 3 * * *" }
+  ]
+}

@@ -1,7 +1,6 @@
-from sqlalchemy import Column, String, Float, Boolean, Date, DateTime, Integer, ForeignKey, text
+from sqlalchemy import Column, String, Float, Boolean, Date, DateTime, Integer, ForeignKey
 from sqlalchemy.sql import func
 from db.database import Base
-from datetime import datetime
 import uuid
 
 def generate_uuid():
@@ -9,9 +8,9 @@ def generate_uuid():
 
 class Transaction(Base):
     __tablename__ = "transactions"
-    
+
     id = Column(String, primary_key=True, default=generate_uuid)
-    intent = Column(String, nullable=False) # sales/purchase/expense/payment
+    intent = Column(String, nullable=False)  # sales/purchase/expense/payment
     party_name = Column(String)
     party_gstin = Column(String)
     party_state = Column(String)
@@ -22,15 +21,15 @@ class Transaction(Base):
     payment_status = Column(String, default='pending')
     tally_posted = Column(Boolean, default=False)
     tally_voucher_id = Column(String)
-    source_type = Column(String, default='chat') # chat/ocr/bank
+    source_type = Column(String, default='chat')  # chat/ocr/bank
     source_file_url = Column(String)
     raw_input = Column(String)
-    date = Column(Date, default=datetime.utcnow().date)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    date = Column(Date, server_default=func.current_date())
+    created_at = Column(DateTime, server_default=func.now())
 
 class LineItem(Base):
     __tablename__ = "line_items"
-    
+
     id = Column(String, primary_key=True, default=generate_uuid)
     transaction_id = Column(String, ForeignKey("transactions.id"))
     description = Column(String)
@@ -42,7 +41,7 @@ class LineItem(Base):
 
 class CreditorDues(Base):
     __tablename__ = "creditor_dues"
-    
+
     id = Column(String, primary_key=True, default=generate_uuid)
     transaction_id = Column(String, ForeignKey("transactions.id"))
     party_name = Column(String, nullable=False)
@@ -59,7 +58,7 @@ class CreditorDues(Base):
 
 class Inventory(Base):
     __tablename__ = "inventory"
-    
+
     id = Column(String, primary_key=True, default=generate_uuid)
     item_name = Column(String, nullable=False)
     hsn_code = Column(String)
@@ -67,24 +66,24 @@ class Inventory(Base):
     quantity = Column(Float, default=0.0)
     avg_cost = Column(Float)
     reorder_level = Column(Float, default=10.0)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
 class HsnMaster(Base):
     __tablename__ = "hsn_master"
-    
+
     hsn_code = Column(String, primary_key=True)
     description = Column(String, nullable=False)
     gst_rate = Column(Float, nullable=False)
     category = Column(String)
     is_service = Column(Boolean, default=False)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, server_default=func.now())
 
 class TallyQueue(Base):
     __tablename__ = "tally_queue"
-    
+
     id = Column(String, primary_key=True, default=generate_uuid)
     transaction_id = Column(String, ForeignKey("transactions.id"))
     xml_payload = Column(String, nullable=False)
-    status = Column(String, default='pending') # pending/posted/failed
+    status = Column(String, default='pending')  # pending/posted/failed
     attempts = Column(Integer, default=0)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, server_default=func.now())

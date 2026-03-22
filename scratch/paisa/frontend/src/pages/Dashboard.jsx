@@ -8,7 +8,8 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/dashboard');
+        const BASE = import.meta.env.VITE_API_BASE_URL || '';
+        const response = await axios.get(`${BASE}/api/dashboard`);
         setStats(response.data);
       } catch (error) {
         console.error('Error fetching dashboard stats', error);
