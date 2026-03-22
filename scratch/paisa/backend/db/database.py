@@ -6,22 +6,19 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./paisa.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "")
 
-# Supabase gives a "postgresql://" URL — SQLAlchemy needs "postgresql+asyncpg://"
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is not set")
+
+# SQLAlchemy needs postgresql+asyncpg:// driver prefix
 if DATABASE_URL.startswith("postgresql://"):
     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
-elif DATABASE_URL.startswith("postgres://"):   # Render/Heroku style
+elif DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
 
-# NullPool is required for Vercel serverless — prevents "connection closed" errors
-# between stateless invocations
-is_sqlite = DATABASE_URL.startswith("sqlite")
-engine = create_async_engine(
-    DATABASE_URL,
-    echo=False,
-    poolclass=None if is_sqlite else NullPool,
-)
+# NullPool required for Vercel serverless — no persistent connections between invocations
+engine = create_async_engine(DATABASE_URL, echo=False, poolclass=NullPool)
 
 AsyncSessionLocal = sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False
