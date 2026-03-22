@@ -2,17 +2,11 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import chat, dashboard, ocr, tally, bank, cron
-from db.database import init_db
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = FastAPI()
-
-@app.on_event("startup")
-async def startup():
-    await init_db()
-    print("Database tables initialized.")
 
 origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
 app.add_middleware(
