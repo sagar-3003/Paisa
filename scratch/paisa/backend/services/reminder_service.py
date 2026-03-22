@@ -2,12 +2,11 @@ import os
 import smtplib
 from email.message import EmailMessage
 from datetime import date
-from sqlalchemy import select
-from db.database import AsyncSessionLocal
-from db.models import CreditorDues
+from db.supabase_client import get_supabase
 
 GMAIL_USER = os.getenv("GMAIL_USER")
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
+
 
 async def send_email_reminder(to: str, party: str, amount: float, invoice: str, overdue_days: int):
     if not (GMAIL_USER and GMAIL_APP_PASSWORD):
@@ -35,35 +34,38 @@ async def send_email_reminder(to: str, party: str, amount: float, invoice: str, 
     except Exception as e:
         print(f"Failed to send email to {to}: {e}")
 
+
 async def send_overdue_reminders():
     """Called by the cron endpoint daily at 9AM IST (3AM UTC)."""
     print("Running send_overdue_reminders")
+    sb = await get_supabase()
     today = date.today()
+    today_str = today.isoformat()
 
-    async with AsyncSessionLocal() as db:
-        result = await db.execute(
-            select(CreditorDues).where(
-                CreditorDues.status != 'paid',
-                CreditorDues.due_date != None,
-                CreditorDues.party_email != None
+    result = await sb.table("creditor_dues").select("*").neq("status", "paid").not_.is_("due_date", "null").not_.is_("party_email", "null").execute()
+
+    sent = 0
+    for due in result.data:
+        due_date_str = due.get("due_date")
+        party_email = due.get("party_email")
+        if not due_date_str or not party_email:
+            continue
+
+        due_date = date.fromisoformat(due_date_str)
+        overdue_days = (today - due_date).days
+        if overdue_days >= 7:
+            pending_amount = (due.get("amount") or 0) - (due.get("paid_amount") or 0)
+            await send_email_reminder(
+                to=party_email,
+                party=due["party_name"],
+                amount=pending_amount,
+                invoice=due.get("invoice_no", "N/A"),
+                overdue_days=overdue_days,
             )
-        )
-        overdue_records = result.scalars().all()
+            await sb.table("creditor_dues").update({
+                "reminder_count": (due.get("reminder_count") or 0) + 1,
+                "last_reminder": today_str,
+            }).eq("id", due["id"]).execute()
+            sent += 1
 
-        for due in overdue_records:
-            if due.due_date and due.party_email:
-                overdue_days = (today - due.due_date).days
-                if overdue_days >= 7:
-                    pending_amount = due.amount - (due.paid_amount or 0)
-                    await send_email_reminder(
-                        to=due.party_email,
-                        party=due.party_name,
-                        amount=pending_amount,
-                        invoice=due.invoice_no,
-                        overdue_days=overdue_days
-                    )
-                    due.reminder_count = (due.reminder_count or 0) + 1
-                    due.last_reminder = today
-
-        await db.commit()
-    return {"sent": len(overdue_records)}
+    return {"sent": sent}

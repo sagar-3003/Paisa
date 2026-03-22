@@ -13,3 +13,4 @@ rapidfuzz==3.9.7
 python-multipart==0.0.12
 boto3==1.35.0
 requests>=2.32.0
+supabase>=2.0.0
